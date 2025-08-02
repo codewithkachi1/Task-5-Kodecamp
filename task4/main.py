@@ -28,5 +28,15 @@ async def read_note(title: str):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+@app.post("/notes/{title}")
+async def update_note(title: str, content: str):
+    try:
+        with open(f"{NOTES_DIR}/{title}.txt", "w") as f:
+            f.write(content)
+        return {"message": "Note updated successfully"}
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Note not found")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
