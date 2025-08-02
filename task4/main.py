@@ -39,4 +39,12 @@ async def update_note(title: str, content: str):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-
+@app.delete("/notes/{title}")
+async def delete_note(title: str):
+    try:
+        os.remove(f"{NOTES_DIR}/{title}.txt")
+        return {"message": "Note deleted successfully"}
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="Note not found")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
