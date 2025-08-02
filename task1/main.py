@@ -27,6 +27,10 @@ async def get_student(name: str):
             return student.to_dict()
     raise HTTPException(status_code=404, detail="Student not found")
 
+@app.get("/students/")
+async def get_students():
+    return [student.to_dict() for student in students]
+
 async def save_students():
     data = [student.to_dict() for student in students]
     with open("students.json", "w") as file:
